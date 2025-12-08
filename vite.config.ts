@@ -4,7 +4,7 @@ import { defineConfig } from "vite"
 
 export default defineConfig({
   plugins: [react()],
-  base: '/vti/', // Nom de votre repo GitHub
+  base: '/vti-website/', // Nom de votre repo GitHub
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
