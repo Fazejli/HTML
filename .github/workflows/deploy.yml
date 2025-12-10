@@ -3,30 +3,36 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main  # Déclenchement à chaque push sur main
-  workflow_dispatch:  # Permet de lancer manuellement le workflow
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-      # 1. Récupérer le code
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2. Installer Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
 
-      # 3. Installer les dépendances
       - name: Install dependencies
         run: npm ci
 
-      # 4. Build du projet Vite
       - name: Build project
-        run: npm ru
+        run: npm run build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v7
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
 
